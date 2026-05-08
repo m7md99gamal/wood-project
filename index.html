@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>TimberCraft | Premium Wood Store</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Poppins', 'Roboto', sans-serif;
+    }
+
+    body {
+      background: #faf6ef;
+      color: #2c2418;
+      scroll-behavior: smooth;
+    }
+
+    /* header & navigation */
+    .header {
+      background: #2e241f;
+      color: #f7e9d7;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    .logo p {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: #d9b382;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #f7e9d7;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover {
+      color: #e3b87c;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+    .user-welcome {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(227,184,124,0.2);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+    }
+    .user-welcome span {
+      color: #e3b87c;
+      font-weight: 500;
+    }
+    .logout-btn {
+      background: transparent;
+      border: 1px solid #c1894b;
+      color: #e3b87c;
+      padding: 0.3rem 0.9rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+    .logout-btn:hover {
+      background: #c1894b;
+      color: #2e241f;
+    }
+    .btn-outline, .btn-solid {
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #e3b87c;
+      color: #e3b87c;
+    }
+    .btn-outline:hover {
+      background: #e3b87c;
+      color: #2e241f;
+    }
+    .btn-solid {
+      background: #c1894b;
+      color: #2e241f;
+    }
+    .btn-solid:hover {
+      background: #dba059;
+      transform: scale(0.97);
+    }
+    .hidden-auth {
+      display: none !important;
+    }
+
+    /* hero section */
+    .hero {
+      background: linear-gradient(rgba(30,20,15,0.75), rgba(30,20,15,0.75)), url('https://images.pexels.com/photos/221372/pexels-photo-221372.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+      background-size: cover;
+      background-position: center 30%;
+      padding: 4rem 2rem;
+      text-align: center;
+      color: white;
+    }
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 1.8rem;
+      font-size: 1.1rem;
+    }
+
+    /* products grid */
+    .products-section {
+      padding: 3rem 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 2rem;
+      border-left: 6px solid #c1894b;
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.1);
+    }
+    .wood-img {
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      background-color: #d9c5ab;
+    }
+    .card-content {
+      padding: 1.2rem;
+    }
+    .wood-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    .wood-desc {
+      color: #5e4b38;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #b46f2c;
+      margin: 0.5rem 0;
+    }
+    .order-btn {
+      background: #2e241f;
+      border: none;
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 40px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 0.5rem;
+    }
+    .order-btn:hover {
+      background: #c1894b;
+      color: #2e241f;
+    }
+
+    /* MODAL OVERLAY (login/register popup) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-container {
+      background: #fffcf7;
+      max-width: 440px;
+      width: 90%;
+      border-radius: 32px;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+      position: relative;
+      text-align: center;
+    }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.8rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .form-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #e7dfd5;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 0.5rem 0;
+      cursor: pointer;
+      color: #8f7a66;
+      width: 50%;
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      color: #c1894b;
+      border-bottom: 3px solid #c1894b;
+    }
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+    }
+    .auth-form input {
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd2c4;
+      border-radius: 50px;
+      font-size: 1rem;
+      background: white;
+    }
+    .auth-form button {
+      background: #c1894b;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: 0.2s;
+    }
+    .auth-form button:hover {
+      background: #b07738;
+      color: white;
+    }
+    .error-msg {
+      color: #c7362b;
+      font-size: 0.75rem;
+      margin-top: -0.3rem;
+    }
+    .form-footnote {
+      font-size: 0.8rem;
+      text-align: center;
+      margin-top: 0.8rem;
+    }
+    .hidden-form {
+      display: none;
+    }
+    footer {
+      background: #2e241f;
+      color: #cfc2b2;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    /* ORDER OVERLAY - stylish shop now popup */
+    .order-modal .modal-container {
+      max-width: 550px;
+      background: #fffef7;
+      border-radius: 36px;
+      padding: 1.8rem;
+      box-shadow: 0 30px 45px rgba(0,0,0,0.3);
+    }
+    .order-summary-card {
+      background: #f7f0e6;
+      border-radius: 28px;
+      padding: 1.2rem;
+      margin: 1rem 0;
+    }
+    .order-summary-card p {
+      margin: 0.5rem 0;
+    }
+    .order-input-group {
+      margin: 1rem 0;
+    }
+    .order-input-group label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .order-input-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 60px;
+      border: 1px solid #cfc3b4;
+      background: white;
+    }
+    .place-order-btn {
+      background: #c1894b;
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 60px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: none;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .place-order-btn:hover {
+      background: #a56e34;
+      color: white;
+    }
+    .order-success {
+      color: #2b6e3c;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 0.8rem;
+    }
+
+    @media (max-width: 680px) {
+      .header {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <h1>🌲 TIMBERCRAFT</h1>
+    <p>finest solid wood since 1982</p>
+  </div>
+  <div class="nav-links">
+    <a href="#" id="homeLink">Home</a>
+    <a href="#" id="shopLink">Shop</a>
+    <div id="authButtonsContainer" class="auth-buttons">
+      <button class="btn-outline" id="loginOpenBtn">Log in</button>
+      <button class="btn-solid" id="registerOpenBtn">Register</button>
+    </div>
+    <div id="userWelcomeArea" class="user-welcome" style="display: none;">
+      <span>👋 Hello, <span id="userNameDisplay">Guest</span></span>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Nature's finest craftsmanship</h2>
+  <p>Premium solid wood for furniture, flooring & joinery. Sustainably sourced, kiln-dried, ready to shape your dreams.</p>
+</section>
+
+<section class="products-section" id="productsSection">
+  <div class="section-title">✨ Best selling species</div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<footer>
+  <p>🌿 TimberCraft — Real wood, real soul. | All orders ship within 48h</p>
+</footer>
+
+<!-- GLOBAL MODAL (login+register popup) -->
+<div id="authModal" class="modal-overlay">
+  <div class="modal-container">
+    <span class="close-modal" id="closeModalBtn">&times;</span>
+    <div class="form-tabs">
+      <button class="tab-btn" id="loginTabBtn">Log in</button>
+      <button class="tab-btn" id="registerTabBtn">Register</button>
+    </div>
+    <!-- LOGIN FORM -->
+    <div id="loginFormContainer" class="auth-form">
+      <input type="text" id="loginEmail" placeholder="Email address" autocomplete="off">
+      <div id="loginEmailError" class="error-msg"></div>
+      <input type="password" id="loginPassword" placeholder="Password">
+      <div id="loginPassError" class="error-msg"></div>
+      <button id="submitLoginBtn">Sign in →</button>
+      <div class="form-footnote">Demo: demo@wood.com / pass123</div>
+    </div>
+    <!-- REGISTER FORM (hidden by default) -->
+    <div id="registerFormContainer" class="auth-form hidden-form">
+      <input type="text" id="regName" placeholder="Full name">
+      <div id="regNameError" class="error-msg"></div>
+      <input type="text" id="regEmail" placeholder="Email address">
+      <div id="regEmailError" class="error-msg"></div>
+      <input type="password" id="regPassword" placeholder="Password (min 6 chars)">
+      <div id="regPassError" class="error-msg"></div>
+      <input type="password" id="regConfirm" placeholder="Confirm password">
+      <div id="regConfirmError" class="error-msg"></div>
+      <button id="submitRegisterBtn">Create account →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- WOOD PRODUCT DATA ----------
+  const woodProducts = [
+    { id: 1, name: "American Walnut", desc: "Rich dark chocolate tones, excellent for luxury furniture.", price: 129.99, imgUrl: "https://images.pexels.com/photos/167244/wood-texture-nature-forest-167244.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" },
+    { id: 2, name: "White Oak", desc: "Durable, rot-resistant, perfect for rustic & modern projects.", price: 99.50, imgUrl: "https://images.pexels.com/photos/545024/pexels-photo-545024.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" },
+    { id: 3, name: "Teak Wood", desc: "Weather-resistant & timeless — ideal for outdoor pieces.", price: 189.90, imgUrl: "https://images.pexels.com/photos/1667086/pexels-photo-1667086.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" },
+    { id: 4, name: "Cherrywood", desc: "Smooth grain, darkens beautifully with age.", price: 114.75, imgUrl: "https://images.pexels.com/photos/440320/pexels-photo-440320.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" },
+    { id: 5, name: "Maple Hardwood", desc: "Light, dense, and ideal for flooring & butcher blocks.", price: 84.30, imgUrl: "https://images.pexels.com/photos/269605/pexels-photo-269605.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" },
+    { id: 6, name: "Mahogany", desc: "Deep reddish-brown, premium for fine cabinetry.", price: 159.99, imgUrl: "https://images.pexels.com/photos/4200700/pexels-photo-4200700.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" }
+  ];
+
+  // ----- Auth & User State -----
+  let currentUser = null;   // stores user object { name, email }
+
+  function saveLoggedUser(userObj) {
+    currentUser = userObj;
+    sessionStorage.setItem("woodStoreUser", JSON.stringify(userObj));
+    updateUIBasedOnAuth();
+  }
+
+  function loadLoggedUser() {
+    const stored = sessionStorage.getItem("woodStoreUser");
+    if(stored) {
+      try {
+        currentUser = JSON.parse(stored);
+      } catch(e) { currentUser = null; }
+    } else {
+      currentUser = null;
+    }
+    updateUIBasedOnAuth();
+    return currentUser;
+  }
+
+  // demo users storage
+  let registeredUsers = JSON.parse(localStorage.getItem("woodStoreUsers")) || [];
+  if(registeredUsers.length === 0) {
+    registeredUsers.push({ name: "Demo User", email: "demo@wood.com", password: "pass123" });
+    localStorage.setItem("woodStoreUsers", JSON.stringify(registeredUsers));
+  } else {
+    const demoExists = registeredUsers.some(u => u.email === "demo@wood.com");
+    if(!demoExists) {
+      registeredUsers.push({ name: "Demo User", email: "demo@wood.com", password: "pass123" });
+      localStorage.setItem("woodStoreUsers", JSON.stringify(registeredUsers));
+    }
+  }
+
+  function syncUsersStorage() {
+    localStorage.setItem("woodStoreUsers", JSON.stringify(registeredUsers));
+  }
+
+  // UI: show/hide auth buttons & welcome area
+  function updateUIBasedOnAuth() {
+    const authContainer = document.getElementById('authButtonsContainer');
+    const welcomeArea = document.getElementById('userWelcomeArea');
+    const userNameSpan = document.getElementById('userNameDisplay');
+    if(currentUser) {
+      if(authContainer) authContainer.classList.add('hidden-auth');
+      if(welcomeArea) {
+        welcomeArea.style.display = 'flex';
+        if(userNameSpan) userNameSpan.innerText = currentUser.name || currentUser.email.split('@')[0];
+      }
+    } else {
+      if(authContainer) authContainer.classList.remove('hidden-auth');
+      if(welcomeArea) welcomeArea.style.display = 'none';
+    }
+  }
+
+  function logoutUser() {
+    sessionStorage.removeItem("woodStoreUser");
+    currentUser = null;
+    updateUIBasedOnAuth();
+    alert("Logged out successfully.");
+  }
+
+  // ----- RENDER PRODUCTS -----
+  function renderProducts() {
+    const grid = document.getElementById("productGrid");
+    if(!grid) return;
+    grid.innerHTML = "";
+    woodProducts.forEach(prod => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <div class="wood-img" style="background-image: url('${prod.imgUrl}'); background-size: cover;"></div>
+        <div class="card-content">
+          <div class="wood-title">${prod.name}</div>
+          <div class="wood-desc">${prod.desc}</div>
+          <div class="price">$${prod.price.toFixed(2)} <span style="font-size:0.8rem;">/ board ft</span></div>
+          <button class="order-btn" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}">🛒 Shop Now</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    document.querySelectorAll('.order-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const productId = btn.getAttribute('data-id');
+        const productName = btn.getAttribute('data-name');
+        const productPrice = btn.getAttribute('data-price');
+        if(!currentUser) {
+          alert("🔐 Please log in or register to place an order.");
+          openModal('login');
+          return;
+        }
+        showStylishOrderPopup(productId, productName, parseFloat(productPrice));
+      });
+    });
+  }
+
+  // ---------- ELEGANT SHOP NOW POPUP (order overlay) ----------
+  function showStylishOrderPopup(id, name, unitPrice) {
+    // remove existing order overlay if any
+    let existingOverlay = document.getElementById('orderOverlayGlobal');
+    if(existingOverlay) existingOverlay.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'orderOverlayGlobal';
+    overlay.className = 'modal-overlay order-modal';
+    overlay.innerHTML = `
+      <div class="modal-container">
+        <span class="close-modal" id="closeOrderBtnGlobal">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:0.2rem;">🌳 Complete Order</h2>
+        <p style="margin-bottom:1rem; color:#6b4c2c;">Premium wood directly from our mill</p>
+        <div class="order-summary-card">
+          <p><strong>🪵 Product:</strong> ${name}</p>
+          <p><strong>💲 Unit price:</strong> $${unitPrice.toFixed(2)} / board ft</p>
+          <div class="order-input-group">
+            <label>📏 Quantity (board feet):</label>
+            <input type="number" id="orderQuantityInput" min="1" max="200" value="1" step="1">
+          </div>
+          <p><strong>💰 Total amount:</strong> <span id="orderTotalDynamic" style="font-size:1.5rem; font-weight:bold;">$${unitPrice.toFixed(2)}</span></p>
+        </div>
+        <div class="order-input-group">
+          <label>🧑‍🌾 Full Name *</label>
+          <input type="text" id="custFullName" placeholder="Your name" value="${currentUser?.name || ''}">
+          <div id="orderNameErrorInline" class="error-msg"></div>
+        </div>
+        <div class="order-input-group">
+          <label>📍 Shipping Address *</label>
+          <input type="text" id="custShippingAddress" placeholder="Street, city, postal code">
+          <div id="orderAddressErrorInline" class="error-msg"></div>
+        </div>
+        <button id="executePlaceOrderBtn" class="place-order-btn">✅ Confirm & Place Order</button>
+        <div id="orderFinalSuccessMsg" class="order-success"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.classList.add('active'), 10);
+    
+    const qtyInput = document.getElementById('orderQuantityInput');
+    const totalSpan = document.getElementById('orderTotalDynamic');
+    function updateTotal() {
+      let qty = parseInt(qtyInput.value) || 1;
+      if(qty < 1) qty = 1;
+      const total = (unitPrice * qty).toFixed(2);
+      totalSpan.innerText = `$${total}`;
+    }
+    qtyInput.addEventListener('input', updateTotal);
+    
+    const closeBtn = document.getElementById('closeOrderBtnGlobal');
+    closeBtn.addEventListener('click', () => {
+      overlay.classList.remove('active');
+      setTimeout(() => overlay.remove(), 300);
+    });
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) { overlay.classList.remove('active'); setTimeout(() => overlay.remove(), 300); } });
+    
+    const placeBtn = document.getElementById('executePlaceOrderBtn');
+    placeBtn.addEventListener('click', () => {
+      const fullName = document.getElementById('custFullName').value.trim();
+      const address = document.getElementById('custShippingAddress').value.trim();
+      let isValid = true;
+      if(!fullName) {
+        document.getElementById('orderNameErrorInline').innerText = "Full name required";
+        isValid = false;
+      } else { document.getElementById('orderNameErrorInline').innerText = ""; }
+      if(!address) {
+        document.getElementById('orderAddressErrorInline').innerText = "Shipping address required";
+        isValid = false;
+      } else { document.getElementById('orderAddressErrorInline').innerText = ""; }
+      if(isValid) {
+        const qty = parseInt(qtyInput.value) || 1;
+        const totalPrice = (unitPrice * qty).toFixed(2);
+        const successMsgDiv = document.getElementById('orderFinalSuccessMsg');
+        successMsgDiv.innerHTML = `✨ Order placed! ${qty} board ft of ${name} will be shipped to ${address}. Total $${totalPrice}. Thank you! ✨`;
+        // disable order button to avoid multiple submissions
+        placeBtn.disabled = true;
+        placeBtn.style.opacity = '0.6';
+        setTimeout(() => {
+          overlay.classList.remove('active');
+          setTimeout(() => overlay.remove(), 400);
+        }, 2800);
+      }
+    });
+  }
+
+  // ---------- AUTH MODAL LOGIC & VALIDATION (popup style) ----------
+  const modal = document.getElementById('authModal');
+  const loginContainer = document.getElementById('loginFormContainer');
+  const registerContainer = document.getElementById('registerFormContainer');
+  const loginTab = document.getElementById('loginTabBtn');
+  const registerTab = document.getElementById('registerTabBtn');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const loginOpen = document.getElementById('loginOpenBtn');
+  const registerOpen = document.getElementById('registerOpenBtn');
+  const logoutBtnElem = document.getElementById('logoutBtn');
+
+  function openModal(tab = 'login') {
+    modal.classList.add('active');
+    if(tab === 'register') {
+      loginContainer.classList.add('hidden-form');
+      registerContainer.classList.remove('hidden-form');
+      loginTab.classList.remove('active');
+      registerTab.classList.add('active');
+    } else {
+      loginContainer.classList.remove('hidden-form');
+      registerContainer.classList.add('hidden-form');
+      loginTab.classList.add('active');
+      registerTab.classList.remove('active');
+    }
+    clearAuthErrors();
+  }
+  function closeModalFunc() { modal.classList.remove('active'); }
+  function clearAuthErrors() {
+    document.querySelectorAll('#authModal .error-msg').forEach(el => el.innerText = '');
+  }
+  loginOpen?.addEventListener('click', () => openModal('login'));
+  registerOpen?.addEventListener('click', () => openModal('register'));
+  closeModalBtn?.addEventListener('click', closeModalFunc);
+  modal?.addEventListener('click', (e) => { if(e.target === modal) closeModalFunc(); });
+  loginTab?.addEventListener('click', () => {
+    loginContainer.classList.remove('hidden-form');
+    registerContainer.classList.add('hidden-form');
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    clearAuthErrors();
+  });
+  registerTab?.addEventListener('click', () => {
+    registerContainer.classList.remove('hidden-form');
+    loginContainer.classList.add('hidden-form');
+    registerTab.classList.add('active');
+    loginTab.classList.remove('active');
+    clearAuthErrors();
+  });
+
+  // Login Validation & Success
+  document.getElementById('submitLoginBtn')?.addEventListener('click', () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pwd = document.getElementById('loginPassword').value.trim();
+    let isValid = true;
+    if(!email) { document.getElementById('loginEmailError').innerText = "Email required"; isValid=false; }
+    else if(!email.includes('@') || !email.includes('.')) { document.getElementById('loginEmailError').innerText = "Enter valid email"; isValid=false; }
+    else { document.getElementById('loginEmailError').innerText = ""; }
+    if(!pwd) { document.getElementById('loginPassError').innerText = "Password required"; isValid=false; }
+    else if(pwd.length < 4) { document.getElementById('loginPassError').innerText = "Password min 4 chars"; isValid=false; }
+    else { document.getElementById('loginPassError').innerText = ""; }
+    if(isValid) {
+      const user = registeredUsers.find(u => u.email === email && u.password === pwd);
+      if(user) {
+        saveLoggedUser({ name: user.name, email: user.email });
+        closeModalFunc();
+        alert(`Welcome back ${user.name}!`);
+      } else {
+        document.getElementById('loginPassError').innerText = "Invalid credentials";
+      }
+    }
+  });
+
+  // Register validation & account creation
+  document.getElementById('submitRegisterBtn')?.addEventListener('click', () => {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pwd = document.getElementById('regPassword').value.trim();
+    const confirm = document.getElementById('regConfirm').value.trim();
+    let ok = true;
+    if(!name) { document.getElementById('regNameError').innerText = "Full name required"; ok=false; }
+    else { document.getElementById('regNameError').innerText = ""; }
+    if(!email || !email.includes('@')) { document.getElementById('regEmailError').innerText = "Valid email required"; ok=false; }
+    else if(registeredUsers.some(u=> u.email === email)) { document.getElementById('regEmailError').innerText = "Email already exists"; ok=false; }
+    else { document.getElementById('regEmailError').innerText = ""; }
+    if(!pwd || pwd.length < 6) { document.getElementById('regPassError').innerText = "Password min 6 characters"; ok=false; }
+    else { document.getElementById('regPassError').innerText = ""; }
+    if(pwd !== confirm) { document.getElementById('regConfirmError').innerText = "Passwords do not match"; ok=false; }
+    else { document.getElementById('regConfirmError').innerText = ""; }
+    if(ok) {
+      registeredUsers.push({ name, email, password: pwd });
+      syncUsersStorage();
+      alert("Registration successful! Please log in.");
+      openModal('login');
+      document.getElementById('regName').value = "";
+      document.getElementById('regEmail').value = "";
+      document.getElementById('regPassword').value = "";
+      document.getElementById('regConfirm').value = "";
+    }
+  });
+
+  // logout event
+  if(logoutBtnElem) logoutBtnElem.addEventListener('click', () => { logoutUser(); });
+  
+  // initial load: products, auth state
+  loadLoggedUser();
+  renderProducts();
+  
+  // smooth navigation links
+  document.getElementById('homeLink')?.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  document.getElementById('shopLink')?.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('productsSection')?.scrollIntoView({behavior:'smooth'}); });
+</script>
+</body>
+</html>
